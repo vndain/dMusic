@@ -18,6 +18,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using System.Windows.Media.Animation;
 
 namespace MusicCrawl.dUserControl
 {
@@ -74,6 +75,15 @@ namespace MusicCrawl.dUserControl
         private void Timer_Tick(object sender, EventArgs e)
         {
             SongInfo.Position ++;
+            if (txbPosition.Text == txbDuration.Text)
+            {
+                if (tgbtnLoop.IsChecked == true)
+                {
+                    SongInfo.Position = 0;
+                    IsPlaying = true;
+                    mdAudio.Position = new TimeSpan(0, 0, (int)SongInfo.Position);
+                }
+            }
             sdDuration.Value = SongInfo.Position;
         }
 
@@ -163,7 +173,13 @@ namespace MusicCrawl.dUserControl
             isDraging = false;
         }
 
+        private void tgbtnLoop_Checked(object sender, RoutedEventArgs e)
+        {
+            if (tgbtnLoop.IsChecked == true)
+            {
+                //mdTimeline.RepeatBehavior = RepeatBehavior.Forever;
 
-  
+            }
+        }
     }
 }

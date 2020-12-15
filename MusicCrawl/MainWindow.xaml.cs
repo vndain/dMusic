@@ -49,9 +49,11 @@ namespace MusicCrawl
             ListCN = new ObservableCollection<Song>();
             if (CrawlBXH())
             {
+                
                 loading.Close();
-                this.Show();
+               
             }
+            this.Show();
 
             IsCheckVN = true;
         }
