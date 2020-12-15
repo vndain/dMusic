@@ -1,0 +1,63 @@
+﻿<UserControl x:Class="MusicCrawl.dUserControl.ucControlBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MusicCrawl.dUserControl"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"             
+             mc:Ignorable="d"
+             Name="ucControlBarX">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="MouseLeftButtonDown">
+            <i:InvokeCommandAction Command="{Binding MouseMoveWindowCommand}"  CommandParameter="{Binding ElementName=ucControlBarX}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid>
+        <materialDesign:ColorZone
+            Mode="PrimaryDark"
+            Padding="16"  
+            CornerRadius="3"
+            materialDesign:ShadowAssist.ShadowDepth="Depth3" 
+            >
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" >                    
+                    <Button  
+                        Margin="5,0,5,0"
+                        Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"  
+                        ToolTip="Minimize"
+                        Command="{Binding MinimizeWindowCommand}"
+                        CommandParameter="{Binding ElementName=ucControlBarX}">
+                        <materialDesign:PackIcon Kind="WindowMinimize" />
+                    </Button>
+                    <Button  
+                        Margin="5,0,5,0"
+                        Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"  
+                        ToolTip="Maximize"
+                        Command="{Binding MaximizeWindowCommand}"
+                        CommandParameter="{Binding ElementName=ucControlBarX}">
+                        <materialDesign:PackIcon Kind="WindowMaximize" />
+                    </Button>
+                    <Button  
+                        Margin="5,0,5,0"
+                        Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"  
+                        ToolTip="Đóng cửa sổ"
+                        Command="{Binding CloseWindowCommand}"
+                        CommandParameter="{Binding ElementName=ucControlBarX}">
+                        <materialDesign:PackIcon Kind="Close" />
+                    </Button>
+                </StackPanel>
+                <StackPanel DockPanel.Dock="Left"
+                    Orientation="Horizontal">
+                    <ToggleButton Checked="ToggleButton_Checked"  
+                    Style="{DynamicResource MaterialDesignHamburgerToggleButton}" />
+                    <TextBlock     
+                    VerticalAlignment="Center"      
+                    Margin="16 0 0 0">  
+                    Nghe nhạc
+                    </TextBlock>
+                </StackPanel>
+            </DockPanel>            
+        </materialDesign:ColorZone>
+    </Grid>
+</UserControl>

@@ -1,0 +1,143 @@
+﻿<Window x:Class="MusicCrawl.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MusicCrawl"
+        xmlns:uc="clr-namespace:MusicCrawl.dUserControl"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        Name="mainWindow"
+        mc:Ignorable="d"
+        Title="Nghe nhạc" Height="800" Width="500">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="MouseLeftButtonDown">
+            <i:InvokeCommandAction Command="{Binding MouseMoveWindowCommand}"  CommandParameter="{Binding ElementName=ucControlBar}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="30"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <uc:ucControlBar></uc:ucControlBar>
+            </Grid>
+            <Grid x:Name="grdTop20" Grid.Row="1">
+                
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <!-- Main control -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0">
+                        <ToggleButton    
+                            Style="{StaticResource MaterialDesignRaisedButton}"    
+                            Margin="5" 
+                            IsChecked="{Binding IsCheckVN}"
+                            ToolTip="BXH 20 bài hát Việt Nam của tuần">
+                            BXH Việt Nam
+                        </ToggleButton>
+                    </Grid>
+                    <Grid Grid.Column="1">
+                        <ToggleButton    
+                            Style="{StaticResource MaterialDesignRaisedButton}"    
+                            Margin="5"  
+                            IsChecked="{Binding IsCheckUSUK}"
+                            ToolTip="BXH 20 bài hát Âu Mỹ của tuần">
+                            BXH Âu Mỹ
+                        </ToggleButton>
+                    </Grid>
+                    <Grid Grid.Column="2">
+                        <ToggleButton
+                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            Margin="5"   
+                            IsChecked="{Binding IsCheckCN}"
+                            ToolTip="BXH 20 bài hát Trung Quốc của tuần">
+                            BXH Trung Quốc
+                        </ToggleButton>
+                    </Grid>
+                </Grid>
+                <!-- List top 20 songs -->
+                <Grid Grid.Row="1">
+                    <ListBox IsEnabled="{Binding IsChecked, ElementName=EnableListBox}"
+                         x:Name="lsbTopSong"
+                         HorizontalContentAlignment="Stretch">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border HorizontalAlignment="Stretch" Width="auto" Height="50" BorderThickness="1" >
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="50"></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition Width="50"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid Grid.Column="0">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="{Binding STT}"></TextBlock>
+                                        </Grid>
+                                        <Grid Grid.Column="1">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition></RowDefinition>
+                                                <RowDefinition></RowDefinition>
+                                            </Grid.RowDefinitions>
+                                            <Grid Grid.Row="0">
+                                                <TextBlock HorizontalAlignment="Left"
+                                                       Text="{Binding SongName}"></TextBlock>
+                                            </Grid>
+                                            <Grid Grid.Row="1">
+                                                <TextBlock HorizontalAlignment="Left"
+                                                       Text="{Binding SingerName}"></TextBlock>
+                                            </Grid>
+                                        </Grid>
+                                        <Grid Grid.Column="2" HorizontalAlignment="Right">
+                                            <Button  
+                                            Style="{StaticResource MaterialDesignFloatingActionDarkButton}"  
+                                            ToolTip="Chơi nhạc"   
+                                            Width="40"                                            
+                                            Height="40"
+                                            Click="Button_Click">
+                                                <materialDesign:PackIcon Kind="Play"/>
+                                            </Button>
+                                        </Grid>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
+
+            </Grid>
+            <Grid Grid.Row="2">
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15">
+                    Phần mềm được viết bởi Daint. Phiên bản 1.0
+                </TextBlock>
+            </Grid>
+        </Grid>        
+        <uc:SongInfoUC NextClicked="ucSongInfo_NextClicked" PreviourClicked="ucSongInfo_PreviourClicked" x:Name="ucSongInfo" Visibility="Hidden"></uc:SongInfoUC>
+    </Grid>
+</Window>

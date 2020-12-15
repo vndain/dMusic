@@ -1,0 +1,123 @@
+﻿<UserControl x:Class="MusicCrawl.dUserControl.SongInfoUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MusicCrawl.dUserControl"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:uc="clr-namespace:MusicCrawl.dUserControl"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             TextElement.FontWeight="Regular"
+             TextElement.FontSize="13"
+             TextOptions.TextFormattingMode="Ideal"
+             TextOptions.TextRenderingMode="Auto"
+             Background="{DynamicResource MaterialDesignPaper}"
+             FontFamily="{DynamicResource MaterialDesignFont}"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             mc:Ignorable="d">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="MouseLeftButtonDown">
+            <i:InvokeCommandAction Command="{Binding MouseMoveWindowCommand}"  CommandParameter="{Binding ElementName=ucControlBar}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="200"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <!--Control bar-->
+        <uc:ucControlBar></uc:ucControlBar>
+        <!--Button back and next-->
+        <Grid Margin="5" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="10"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0"  x:Name="btnBack" Click="btnBack_Click">Trở lại</Button>
+            <Button Grid.Column="2" Click="btnNext_Click" >Bài tiếp theo</Button>
+        </Grid>
+        <!--Image and song name-->
+        <Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition ></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Image Width="auto" Height="auto"  Source="{Binding SavePathImage}"></Image>
+            <Canvas x:Name="myCanvas" Grid.Row="0" Background="Transparent">
+                <MediaElement LoadedBehavior="Manual"  MediaOpened="mdAudio_MediaOpened"  x:Name="mdAudio" Width="0" Height="0" Source="{Binding SavePath}"></MediaElement>
+                <Grid Width="{Binding ActualWidth, ElementName=myCanvas}"
+                      Height="{Binding ActualHeight, ElementName=myCanvas}">
+                    <Label Content="{Binding SongName}"
+                           Foreground="White"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"></Label>
+                </Grid>
+            </Canvas>
+        </Grid>
+        <!--Control player-->
+        <Grid Grid.Row="3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Grid.Column="0">
+                    
+                    
+                    <Button x:Name="btnPrev" Click="btnPrev_Click" Style="{StaticResource MaterialDesignFloatingActionDarkButton}"           
+                                ToolTip="Bài hát trước"                                               
+                                Width="30" 
+                                Height="30"
+                                Margin="5">
+                        <materialDesign:PackIcon Kind="SkipPrevious" />
+                    </Button>
+                    <Button x:Name="btnPlay" Click="btnPlay_Click" Style="{StaticResource MaterialDesignFloatingActionDarkButton}"           
+                                ToolTip="Chơi nhạc"                                               
+                                Width="30" 
+                                Height="30"
+                                Margin="5">
+                        <materialDesign:PackIcon x:Name="iconPlay" Kind="Play"/>
+                    </Button>
+                    <Button x:Name="btnNext" Click="btnNext_Click" Style="{StaticResource MaterialDesignFloatingActionDarkButton}"           
+                                ToolTip="Bài hát kế"                                               
+                                Width="30" 
+                                Height="30"
+                                Margin="5">
+                        <materialDesign:PackIcon  Kind="SkipNext" />
+                    </Button>
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="40"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="40"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock Margin="5,0,0,0" Grid.Column="0" x:Name="txbPosition"></TextBlock>
+                <Slider Grid.Column="1" ValueChanged="sdDuration_ValueChanged" PreviewMouseDown="sdDuration_MouseDown" PreviewMouseUp="sdDuration_MouseUp"  x:Name="sdDuration"/>
+                <TextBlock Margin="0,0,0,5" Grid.Column="2" x:Name="txbDuration"></TextBlock>
+            </Grid>
+        </Grid>
+        <!--Khoảng trống-->
+        <Grid Grid.Row="4"></Grid>
+        <!--Lời bài hát-->
+        <Grid Grid.Row="5">
+            <GroupBox
+                Header="Lời bài hát">
+                <ScrollViewer>
+                    <TextBlock Text="{Binding Lyric}" TextAlignment="Center">
+                        </TextBlock>
+                </ScrollViewer>
+            </GroupBox>
+        </Grid>
+    </Grid>
+</UserControl>
