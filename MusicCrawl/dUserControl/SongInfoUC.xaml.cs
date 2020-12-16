@@ -83,6 +83,10 @@ namespace MusicCrawl.dUserControl
                     IsPlaying = true;
                     mdAudio.Position = new TimeSpan(0, 0, (int)SongInfo.Position);
                 }
+                else
+                {
+                    nextClicked(this, new EventArgs());
+                }
             }
             sdDuration.Value = SongInfo.Position;
         }
@@ -173,12 +177,15 @@ namespace MusicCrawl.dUserControl
             isDraging = false;
         }
 
-        private void tgbtnLoop_Checked(object sender, RoutedEventArgs e)
+        private void tgbtnLoop_Click(object sender, RoutedEventArgs e)
         {
             if (tgbtnLoop.IsChecked == true)
             {
-                //mdTimeline.RepeatBehavior = RepeatBehavior.Forever;
-
+                materialLoop.Kind = PackIconKind.Forward;
+            }
+            else if (tgbtnLoop.IsChecked == false)
+            {
+                materialLoop.Kind = PackIconKind.Loop;
             }
         }
     }

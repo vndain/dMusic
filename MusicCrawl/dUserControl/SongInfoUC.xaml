@@ -102,13 +102,13 @@
                                 Margin="5">
                         <materialDesign:PackIcon  Kind="SkipNext" />
                     </Button>
-                    <ToggleButton x:Name="tgbtnLoop" Checked="tgbtnLoop_Checked"  >  
-                                <!--Style="{StaticResource MaterialDesignFloatingActionDarkButton}"           
+                    <ToggleButton x:Name="tgbtnLoop" 
+                        Style="{StaticResource MaterialDesignFloatingActionDarkButton}"           
                                 ToolTip="Bài hát kế"                                               
                                 Width="30" 
                                 Height="30"
-                                Margin="5"-->
-                        <!--<materialDesign:PackIcon  Kind="Loop" />-->
+                                Margin="5" Click="tgbtnLoop_Click">
+                        <materialDesign:PackIcon x:Name="materialLoop"  Kind="Loop" />
                     </ToggleButton>
                 </StackPanel>
             </Grid>
