@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -25,13 +26,25 @@ namespace MusicCrawl
     /// </summary>
     public partial class MainWindow : Window,INotifyPropertyChanged
     {
-        private bool isCheckVN; public bool IsCheckVN { get => isCheckVN; set { isCheckVN = value; lsbTopSong.ItemsSource = ListVN; isCheckUSUK = false; isCheckCN = false; OnPropertyChanged("IsCheckVN"); OnPropertyChanged("IsCheckUSUK"); OnPropertyChanged("IsCheckKR"); } }
-        private bool isCheckUSUK; public bool IsCheckUSUK { get => isCheckUSUK; set { isCheckUSUK = value; lsbTopSong.ItemsSource = ListUSUK; isCheckVN = false; isCheckCN = false; OnPropertyChanged("IsCheckVN"); OnPropertyChanged("IsCheckUSUK"); OnPropertyChanged("IsCheckKR"); } }
-        private bool isCheckCN; public bool IsCheckCN { get => isCheckCN; set { isCheckCN = value; isCheckVN = false; lsbTopSong.ItemsSource = listCN; isCheckUSUK = false; OnPropertyChanged("IsCheckVN"); OnPropertyChanged("IsCheckUSUK"); OnPropertyChanged("IsCheckKR"); } }
+        private bool isCheckVN; 
+        public bool IsCheckVN 
+        { get => isCheckVN; 
+            set 
+            { 
+                isCheckVN = value; 
+                lsbTopSong.ItemsSource = ListVN; 
+                isCheckUSUK = false; 
+                isCheckMyPlaylist = false; 
+                OnPropertyChanged("IsCheckVN"); 
+                OnPropertyChanged("IsCheckUSUK"); 
+                OnPropertyChanged("IsCheckMyPlaylist"); 
+            } 
+        }
+        private bool isCheckUSUK; public bool IsCheckUSUK { get => isCheckUSUK; set { isCheckUSUK = value; lsbTopSong.ItemsSource = ListUSUK; isCheckVN = false; IsCheckMyPlaylist = false; OnPropertyChanged("IsCheckVN"); OnPropertyChanged("IsCheckUSUK"); OnPropertyChanged("IsCheckMyPlaylist"); } }
+        private bool isCheckMyPlaylist; public bool IsCheckMyPlaylist { get => isCheckMyPlaylist; set { isCheckMyPlaylist = value; isCheckVN = false; lsbTopSong.ItemsSource = ListMyPlaylist; isCheckUSUK = false; OnPropertyChanged("IsCheckVN"); OnPropertyChanged("IsCheckUSUK"); OnPropertyChanged("IsCheckMyPlaylist"); } }
         private ObservableCollection<Song> listVN; public ObservableCollection<Song> ListVN { get => listVN; set => listVN = value; }
         private ObservableCollection<Song> listUSUK; public ObservableCollection<Song> ListUSUK { get => listUSUK; set => listUSUK = value; }
-
-        private ObservableCollection<Song> listCN; public ObservableCollection<Song> ListCN { get => listCN; set => listCN = value; }
+        private ObservableCollection<Song> listMyPlaylist; public ObservableCollection<Song> ListMyPlaylist { get => listMyPlaylist; set => listMyPlaylist = value; }
         private Song currentSong; public Song CurrentSong { get => currentSong; set=> currentSong = value; }
 
 
@@ -41,20 +54,16 @@ namespace MusicCrawl
             LoadingWindow loading = new LoadingWindow();
             this.Hide();
             loading.Show();
-            
             ucSongInfo.BackToMain += UcSongInfo_BackToMain;
             this.DataContext = this;
             ListVN = new ObservableCollection<Song>();
             ListUSUK = new ObservableCollection<Song>();
-            ListCN = new ObservableCollection<Song>();
+            ListMyPlaylist = new ObservableCollection<Song>();
             if (CrawlBXH())
-            {
-                
+            {                
                 loading.Close();
-               
+                this.Show();
             }
-            this.Show();
-
             IsCheckVN = true;
         }
 
@@ -81,11 +90,12 @@ namespace MusicCrawl
             ucSongInfo.Visibility = Visibility.Visible;
             ucSongInfo.SongInfo = song;
         }
+
         bool CrawlBXH()
         {
-            addToList(ListVN, "vietnam");
-            addToList(ListUSUK, "us-uk");
-            addToList(ListCN, "chinese");
+            addToList(ListVN, "nhac-hot/vietnam.html?playlist=");
+            addToList(ListUSUK, "nhac-hot/us-uk.html?playlist=");
+            addToList(ListMyPlaylist, "playlist/Y3NuX3BsYXlsaXN0fjQyMzU2/dMusic?playlist=");
             return true;
         }
         void addToList(ObservableCollection<Song> listSong, string strList)
@@ -93,7 +103,7 @@ namespace MusicCrawl
             HttpRequest http = new HttpRequest();
             for (int i = 1; i <= 20; i++)
             {
-                string link = "https://chiasenhac.vn/nhac-hot/" + strList + ".html?playlist=" + i.ToString();
+                string link = "https://chiasenhac.vn/" + strList  + i.ToString();
                 string htmlBXH = http.Get(link).ToString();
                 string htmlPattern = @"<h1 class=""title"">(.*?)</h1>";
                 var temp = Regex.Match(htmlBXH, htmlPattern, RegexOptions.Singleline);
@@ -149,13 +159,13 @@ namespace MusicCrawl
             {
                 ChangeToNextSong(ListVN, 9, 1);
             }
-            if (isCheckUSUK)
+            else if (isCheckUSUK)
             {
                 ChangeToNextSong(ListUSUK, 9, 1);
             }
-            if (isCheckCN)
+            else
             {
-                ChangeToNextSong(ListCN, 9, 1);
+                ChangeToNextSong(ListMyPlaylist, 9, 1);
             }
         }
 
@@ -171,7 +181,7 @@ namespace MusicCrawl
             }
             else
             {
-                ChangeToNextSong(ListCN, 0, -1);
+                ChangeToNextSong(ListMyPlaylist, 0, -1);
             }
         }
     }

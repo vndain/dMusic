@@ -71,9 +71,9 @@
                         <ToggleButton
                             Style="{StaticResource MaterialDesignRaisedButton}"
                             Margin="5"   
-                            IsChecked="{Binding IsCheckCN}"
-                            ToolTip="BXH 20 bài hát Trung Quốc của tuần">
-                            BXH Trung Quốc
+                            IsChecked="{Binding IsCheckMyPlaylist}"
+                            ToolTip="Playlist nhạc đã tải">
+                            Playlist của bạn
                         </ToggleButton>
                     </Grid>
                 </Grid>
