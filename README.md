@@ -11,6 +11,6 @@ Phần mềm nghe nhạc, lấy dữ liệu từ bảng xếp hạng của websi
 
 -----------------------------------------
 ### Cập nhật sắp tới
-- [ ] Thêm tính năng chuyển tự chuyển bài hát.
+- [x] Thêm tính năng chuyển tự chuyển bài hát.
 - [ ] Thêm tính năng tải bài hát theo danh sách tự chọn.
 - [ ] Thêm tính năng tài bài hát từ Youtube.
